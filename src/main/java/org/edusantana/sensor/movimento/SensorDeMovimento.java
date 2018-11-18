@@ -1,8 +1,8 @@
 package org.edusantana.sensor.movimento;
 
-import edu.ifpb.sensor.AbstractSensor;
-import edu.ifpb.sensor.Medicao;
-import edu.ifpb.sensor.Sensor;
+import edu.ifpb.automacao.AbstractSensor;
+import edu.ifpb.automacao.Medicao;
+import edu.ifpb.automacao.Sensor;
 
 public class SensorDeMovimento extends AbstractSensor<Boolean> {
 

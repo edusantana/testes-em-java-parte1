@@ -3,7 +3,7 @@ package org.edusantana.sensor.movimento;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import edu.ifpb.sensor.MapDialogoAdapter;
+import edu.ifpb.automacao.MapDialogoAdapter;
 
 public class SensorDeMovimentoDialogoHelper extends MapDialogoAdapter<Boolean> {
 
