@@ -1,12 +1,11 @@
 package edu.ifpb.automacao;
 
-import java.io.IOException;
+import java.io.BufferedInputStream;
 import java.io.InputStream;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.Clip;
 
 /**
  * Toca um arquivo audio padrão.
@@ -22,24 +21,25 @@ public class SireneAudioPadrao implements Sirene {
 	 */
 	private static final String ARQUIVO_DE_AUDIO_PADRAO = "audio/alarme.wav";
 
+
 	public void toca() {
 
-		InputStream is = getClass().getResourceAsStream(ARQUIVO_DE_AUDIO_PADRAO);
+		
+		InputStream in = getClass().getClassLoader().getResourceAsStream(ARQUIVO_DE_AUDIO_PADRAO);
+		
 		try {
-			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(is);
-			AudioSystem.getClip().open(audioInputStream);
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(in));
 
-		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 
 	}
+
 
 }
