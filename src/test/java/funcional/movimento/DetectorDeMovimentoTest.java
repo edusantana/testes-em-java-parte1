@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import edu.ifpb.automacao.Medicao;
+import edu.ifpb.automacao.Sensor;
 import edu.ifpb.automacao.Sirene;
 
 /**
@@ -35,8 +36,6 @@ class DetectorDeMovimentoTest {
 	@DisplayName("Toca sirene quando detecta movimento dentro do limite configurado")
 	void tocaSireneQuandoDetectaMovimento() {
 
-		mockSirene();
-
 		supoeDetectacaoDeMovimentoNoLimiteDeConfianca();
 
 		verificaQueSireneFoiTocada();
@@ -47,16 +46,11 @@ class DetectorDeMovimentoTest {
 	@DisplayName("Sirene não toca quando detecta movimento abaixo limite configurado")
 	void naoTocaSireneQuandoDetectaMovimentoAbaixoDoLimite() {
 
-		mockSirene();
-
 		supoeDetectacaoDeMovimentoAbaixoDoLimiteDeConfianca();
 
 		verificaQueSireneNaoFoiTocada();
 
 	}
-
-	
-	
 
 	private void verificaQueSireneNaoFoiTocada() {
 		verify(dispositivo.getSirene(), never()).toca();
@@ -64,8 +58,6 @@ class DetectorDeMovimentoTest {
 
 	private void verificaQueSireneFoiTocada() {
 		verify(dispositivo.getSirene()).toca();
-		
-
 	}
 
 	private void mockSirene() {
@@ -73,19 +65,34 @@ class DetectorDeMovimentoTest {
 		dispositivo.setSirene(sirene);
 	}
 
-	private void supoeDetectacaoDeMovimentoAbaixoDoLimiteDeConfianca() {
-		
-		Medicao<Boolean> medicao = new Medicao<Boolean>(true, LIMITE_DE_CONFIANCA-0.1);
-		
-		dispositivo.supoeMedicao(medicao);
-		
+	private void mockSensor() {
+		Sensor<Boolean> sensor = mock(Sensor.class);
+		dispositivo.setSensor(sensor);
 	}
-	
+
+	private void supoeDetectacaoDeMovimentoAbaixoDoLimiteDeConfianca() {
+
+		mockSirene();
+		mockSensor();
+
+		Medicao<Boolean> medicaoSuposta = new Medicao<Boolean>(true, LIMITE_DE_CONFIANCA - 0.1);
+
+		when(dispositivo.getSensor().realizaMedicao()).thenReturn(medicaoSuposta);
+
+		dispositivo.realizaLeitura();
+
+	}
+
 	private void supoeDetectacaoDeMovimentoNoLimiteDeConfianca() {
-		
-		Medicao<Boolean> medicao = new Medicao<Boolean>(true, LIMITE_DE_CONFIANCA);
-		
-		dispositivo.supoeMedicao(medicao);
+
+		mockSirene();
+		mockSensor();
+
+		Medicao<Boolean> medicaoSuposta = new Medicao<Boolean>(true, LIMITE_DE_CONFIANCA);
+
+		when(dispositivo.getSensor().realizaMedicao()).thenReturn(medicaoSuposta);
+
+		dispositivo.realizaLeitura();
 
 	}
 
