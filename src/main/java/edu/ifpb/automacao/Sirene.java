@@ -8,3 +8,4 @@ public interface Sirene {
 	void toca();
 
 }
+
