@@ -6,10 +6,13 @@ import edu.ifpb.automacao.Sirene;
 public class DetectetorDeMovimentoDispositivo {
 
 	private Sirene sirene;
+	private double limiteDeConfianca;
 
 	public static DetectetorDeMovimentoDispositivo cria(double limiteDeConfianca) {
 
 		DetectetorDeMovimentoDispositivo dispositivo = new DetectetorDeMovimentoDispositivo();
+		dispositivo.setLimiteDeConfianca(limiteDeConfianca);
+		
 
 		// dispositivo.setLimiteDeConfianca(limiteDeConfianca);
 
@@ -17,15 +20,18 @@ public class DetectetorDeMovimentoDispositivo {
 
 	}
 
+	private void setLimiteDeConfianca(double limiteDeConfianca) {
+		this.limiteDeConfianca = limiteDeConfianca;
+	}
+
 	public void supoeMedicao(Medicao<Boolean> medicao) {
-
 		medicaoRealizada(medicao);
-
 	}
 
 	private void medicaoRealizada(Medicao<Boolean> medicao) {
-		getSirene().toca();
-
+		if (medicao.getConfiancaDaMedicao() >= limiteDeConfianca) {
+			getSirene().toca();			
+		}
 	}
 
 	public void setSirene(Sirene sirene) {
