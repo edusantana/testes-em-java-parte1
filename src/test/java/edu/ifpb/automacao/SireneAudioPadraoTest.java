@@ -9,7 +9,7 @@ import org.junit.jupiter.api.condition.DisabledIfEnvironmentVariable;
 class SireneAudioPadraoTest {
 
 	/* Esse teste não funciona no travis, pq não toca som lá.
-	 * Foi necessário desativar esse teste lá.
+	 * Foi necessário desativar esse teste, mas apenas lá.
 	 * https://junit.org/junit5/docs/current/user-guide/ 
 	 * https://docs.travis-ci.com/user/environment-variables/#default-environment-variables
 	 */
